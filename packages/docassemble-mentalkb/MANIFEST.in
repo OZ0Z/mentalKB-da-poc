@@ -1,0 +1,2 @@
+﻿recursive-include docassemble/mentalkb/data/static *.csv
+recursive-include docassemble/mentalkb/data/questions *.yml

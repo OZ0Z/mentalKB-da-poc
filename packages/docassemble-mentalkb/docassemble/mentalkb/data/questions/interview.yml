@@ -1,0 +1,23 @@
+﻿---
+modules:
+  - docassemble.mentalkb.loader
+---
+code: |
+  kb = KB()
+  # choose the first page's first question as an example:
+  # replace with your own page-to-question ordering logic:
+  first_qid = next(iter(kb.questions))  # deterministic enough for demo
+---
+question: ${ kb.get_question(first_qid).prompt }
+fields:
+  - no label: q_${ first_qid }
+    ${ "choices: " + str([o.label for o in kb.get_options(first_qid)]) if kb.get_options(first_qid) else "" }
+    datatype: ${ "radio" if kb.get_options(first_qid) else "text" }
+continue button field: go_next
+---
+event: done
+question: All done!
+subquestion: |
+  Thanks! Your first answer was: **${ q_[first_qid] if defined("q_") else "(none)" }**
+buttons:
+  - Restart: restart
