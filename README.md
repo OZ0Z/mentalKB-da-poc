@@ -1,32 +1,42 @@
 ﻿# MentalkB Docassemble PoC
 
-Proof-of-concept environment that demonstrates migrating MentalkB wizard flows from Catalyst into docassemble.
+**Proof-of-concept:** migrating MentalkB wizard flows from Catalyst into [docassemble](https://docassemble.org/).
 
-## Quick start
+_For the detailed walkthrough with screenshots, see [docs/setup-guide.md](docs/setup-guide.md)._ 
 
-1. Copy `.env.example` to `.env` and customize secrets if desired.
+## Quick Start
+
+1. Copy `.env.example` to `.env` and customize secrets if needed.
 2. Place the sanitized MentalkB dump at `db-init/001_mentalkb.sql`.
-3. Run `docker compose up -d` (or `make up` if you use the optional Makefile).
-4. Wait for the containers to become healthy, then open http://localhost:8080.
-5. Log in with the credentials from `.env`, install the `docassemble-mentalkb` package from this repo, and run `/interview?i=docassemble.mentalkb:data/questions/interview.yml`.
+3. Start the stack with `docker compose up -d` (or `make up`).
+4. Wait for the containers to report healthy, then open <http://localhost:8080>.
+5. Log in with the credentials from `.env`, install the `docassemble-mentalkb` package from this repo, and browse to `/interview?i=docassemble.mentalkb:data/questions/interview.yml`.
 
-See `docs/setup-guide.md` for screenshots and the detailed walkthrough.
+## Project Layout
 
-## Project layout
+- `docker-compose.yml` – docassemble + Postgres + pgAdmin stack
+- `db-init/` – seed SQL executed the first time Postgres starts
+- `packages/docassemble-mentalkb/`
+  - `docassemble/mentalkb/`
+    - `loader.py` – SQLAlchemy loader pulling pages/questions/options
+    - `util.py` – DB write hook (persists to `intake_sessions`)
+    - `data/questions/interview.yml` – docassemble interview driver
+    - `templates/summary.md` – export template (swap for DOCX as needed)
+  - `setup.py`, `MANIFEST.in` – Python packaging metadata
+- `docs/` – setup guide and architecture notes
 
-- `docker-compose.yml` – docassemble + Postgres + pgAdmin stack.
-- `db-init/` – bootstrap SQL executed when Postgres starts the first time.
-- `packages/docassemble-mentalkb/` – docassemble package with loader, YAML, and export template.
-- `docs/` – setup instructions and architecture notes.
+## Highlights
 
-## Status
+- Dynamic interview: pages, questions, and options load live from Postgres.
+- One-command bootstrap: `docker compose up -d` brings the full stack online.
+- Responses persist to `intake_sessions` and generate a downloadable summary.
 
-- Dynamic interview pulls pages/questions/options from Postgres.
-- Responses persist to `intake_sessions` via docassemble hook.
-- Generates a simple Markdown summary attachment (swap for DOCX as needed).
+## Next Steps
 
-## Next steps
+- Extend rules mapping for complex branching or page logic.
+- Replace the Markdown summary with branded DOCX/PDF output.
+- Harden credentials and add CI checks when moving beyond the PoC.
 
-- Extend rules mapping for complex branching.
-- Replace the summary template with branded DOCX/PDF output.
-- Harden credentials and add CI checks when moving past the PoC stage.
+---
+
+Built for the MentalkB migration feasibility study.
