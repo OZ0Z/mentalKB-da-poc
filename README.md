@@ -26,13 +26,13 @@ _For the detailed walkthrough with screenshots, see [docs/setup-guide.md](docs/s
   - `setup.py`, `MANIFEST.in` – Python packaging metadata(package and dependency configuration essentially)
 - `docs/` – setup guide and architecture notes
 
-## Highlights ✨
+## ✨ Highlights ✨
 
 - Dynamic interview: pages, questions, and options load live from Postgres.
 - One-command bootstrap: `docker compose up -d` brings the full stack online.
 - Responses persist to `intake_sessions` and generate a downloadable summary.
 
-## Next Steps 
+## Next Steps ☘️
 
 - Extend rules mapping for complex branching or page logic.
 - Replace the Markdown summary with branded DOCX/PDF output.
