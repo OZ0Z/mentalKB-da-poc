@@ -3,6 +3,7 @@
 
 _For the detailed walkthrough with screenshots, see [docs/setup-guide.md](docs/setup-guide.md)._ 
 
+---
 # ⚡ **Quick Start**
 
 1. Copy `.env.example` to `.env` and change secrets if needed.
@@ -13,6 +14,7 @@ _For the detailed walkthrough with screenshots, see [docs/setup-guide.md](docs/s
 4. Wait for the containers to report healthy, then open <http://localhost:8080>.
 5. Log in with the credentials from `.env`, install the `docassemble-mentalkb` package from this repo, and browse to `/interview?i=docassemble.mentalkb:data/questions/interview.yml`.
 
+----
 ## Project Layout 
 
 - `docker-compose.yml` – docassemble + Postgres + pgAdmin stack
@@ -25,13 +27,15 @@ _For the detailed walkthrough with screenshots, see [docs/setup-guide.md](docs/s
     - `templates/summary.md` – export template (will swap for DOCX)
   - `setup.py`, `MANIFEST.in` – Python packaging metadata(package and dependency configuration essentially)
 - `docs/` – setup guide and architecture notes
-
+- 
+----
 ## ✨ Highlights ✨
 
 - Dynamic interview: pages, questions, and options load live from Postgres.
 - One-command bootstrap: `docker compose up -d` brings the full stack online.
 - Responses persist to `intake_sessions` and generate a downloadable summary.
 
+----
 ## Next Steps 
 
 - Extend rules mapping for complex branching or page logic.
