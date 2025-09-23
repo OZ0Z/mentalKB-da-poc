@@ -1,4 +1,5 @@
 ﻿# Setup Guide
+ >  **Goal**: be running an interview and see a saved row in *intake_sessions* in ~2 minutes.
 
 ## Prerequisites
 - Docker & Docker Compose
@@ -15,6 +16,10 @@ cp .env.example .env
 docker compose up -d
 ```
 The first boot seeds Postgres using `db-init/001_mentalkb.sql`. To reseed, run `docker compose down -v` before starting again.
+###### *After **docker compose up -d**, watch readiness if you want*:
+> 1) docker compose logs -f postgres | sed -n '/database system is ready to accept connections/p'
+> 2) docker compose logs -f docassemble | sed -n '/Starting web server/p'
+
 
 ## 3. Access services
 - Docassemble: http://localhost:8080 (login with `DA_ADMIN_EMAIL` / `DA_ADMIN_PASSWORD`)
