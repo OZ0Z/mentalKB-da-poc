@@ -32,7 +32,7 @@ _For the detailed walkthrough with screenshots, see [docs/setup-guide.md](docs/s
 - One-command bootstrap: `docker compose up -d` brings the full stack online.
 - Responses persist to `intake_sessions` and generate a downloadable summary.
 
-## Next Steps ☘️
+## Next Steps 
 
 - Extend rules mapping for complex branching or page logic.
 - Replace the Markdown summary with branded DOCX/PDF output.
