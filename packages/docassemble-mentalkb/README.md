@@ -3,7 +3,7 @@
 Docassemble package that renders MentalkB interview flows directly from the MentalkB Postgres database.
 
 ## Features
-- Loads pages, questions, and options via SQLAlchemy (no CSV extracts).
+- Loads pages, questions, and options via SQLAlchemy.
 - Supports page-by-page wizard rendering inside docassemble.
 - Persists responses to `intake_sessions` using a docassemble completion hook.
 - Generates a Markdown summary attachment (swap for DOCX/PDF as needed).
@@ -14,7 +14,7 @@ Docassemble package that renders MentalkB interview flows directly from the Ment
 3. Launch the interview at `/interview?i=docassemble.mentalkb:data/questions/interview.yml`.
 
 ## Configuration
-The package expects an environment variable `MENTALKB_DB_URL` inside the Docassemble runtime. The provided Docker Compose file sets this automatically.
+The package expects an environment variable `MENTALKB_DB_URL` inside the Docassemble runtime. The provided Docker Compose file/container sets this automatically.
 
 ## Development tips
 - Update `loader.py` SQL statements if the underlying schema differs.
