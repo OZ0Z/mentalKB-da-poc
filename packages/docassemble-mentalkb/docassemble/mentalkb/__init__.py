@@ -1,5 +1,12 @@
-﻿"""Docassemble MentalkB package."""
+﻿__all__ = [
+    "KB",
+    "Page",
+    "Question",
+    "Option",
+    "save_session_results",
+]
 
-from .loader import KB, Question, Option
+__version__ = "1.0.0"
 
-__all__ = ["KB", "Question", "Option"]
+from .loader import KB, Page, Question, Option
+from .util import save_session_results

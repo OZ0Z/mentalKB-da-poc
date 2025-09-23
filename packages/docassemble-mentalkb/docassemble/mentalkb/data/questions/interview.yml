@@ -1,23 +1,82 @@
 ﻿---
 modules:
   - docassemble.mentalkb.loader
+  - docassemble.mentalkb.util
 ---
 code: |
   kb = KB()
-  # choose the first page's first question as an example:
-  # replace with your own page-to-question ordering logic:
-  first_qid = next(iter(kb.questions))  # deterministic enough for demo
+  pages = kb.pages()
+  page_index = 0
 ---
-question: ${ kb.get_question(first_qid).prompt }
-fields:
-  - no label: q_${ first_qid }
-    ${ "choices: " + str([o.label for o in kb.get_options(first_qid)]) if kb.get_options(first_qid) else "" }
-    datatype: ${ "radio" if kb.get_options(first_qid) else "text" }
-continue button field: go_next
+mandatory: True
+code: |
+  if not pages:
+      need('no_pages_available')
+  elif page_index >= len(pages):
+      need('wrap_up')
+  else:
+      current_page = pages[page_index]
+      current_questions = kb.questions_for(current_page.id)
+      if current_questions:
+          need('build_fields')
+
+      else:
+          page_index += 1
+          need('mandatory')
 ---
-event: done
-question: All done!
+id: build_fields
+code: |
+  need('render_page')
+  the_fields = []
+  for q in current_questions:
+      f = {
+          "label": q.prompt,
+          "field": f"q_{q.id}",
+          "required": bool(q.required),
+          "datatype": kb.da_datatype_for(q.kind),
+      }
+      if kb.has_options(q.id):
+          f["choices"] = [[opt.label, (opt.value or opt.label)] for opt in kb.options_for(q.id)]
+      the_fields.append(f)
+
+---
+id: render_page
+question: ${ current_page.title or "MentalkB Interview" }
 subquestion: |
-  Thanks! Your first answer was: **${ q_[first_qid] if defined("q_") else "(none)" }**
+  Please answer the following questions.
+fields: ${ the_fields }
+continue button field: proceed
+
+
+
+---
+code: |
+  if defined('proceed'):
+      page_index += 1
+      del proceed
+---
+id: no_pages_available
+event: done
+question: No pages found
+subquestion: |
+  The MentalkB database returned no pages. Verify seed data.
 buttons:
   - Restart: restart
+---
+id: wrap_up
+event: save_results
+code: |
+  captured = {k: v for k, v in user_dict().items() if k.startswith('q_')}
+  save_session_results(user_email if defined('user_email') else None, captured)
+---
+event: done
+question: Interview complete
+subquestion: |
+  Your responses were saved to the MentalkB database.
+attachment:
+  - name: MentalkB Summary
+    filename: mentalkb-summary.md
+    content file: templates/summary.md
+buttons:
+  - Restart: restart
+  - Finish: exit

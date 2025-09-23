@@ -1,0 +1,57 @@
+﻿version: "3.8"
+
+services:
+  postgres:
+    image: postgres:12
+    container_name: mentalkb-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${MENTALKB_DB}
+      POSTGRES_USER: ${MENTALKB_USER}
+      POSTGRES_PASSWORD: ${MENTALKB_PASSWORD}
+    ports:
+      - "${MENTALKB_DB_PORT}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./db-init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${MENTALKB_USER} -d ${MENTALKB_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  pgadmin:
+    image: dpage/pgadmin4:8
+    container_name: mentalkb-pgadmin
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
+    ports:
+      - "${PGADMIN_PORT}:80"
+
+  docassemble:
+    image: jhpyle/docassemble:latest
+    container_name: docassemble
+    restart: unless-stopped
+    environment:
+      DA_ADMIN_EMAIL: ${DA_ADMIN_EMAIL}
+      DA_ADMIN_PASSWORD: ${DA_ADMIN_PASSWORD}
+      MENTALKB_DB_URL: postgresql+psycopg2://${MENTALKB_USER}:${MENTALKB_PASSWORD}@postgres:5432/${MENTALKB_DB}
+      SITEDOMAIN: localhost
+      TIMEZONE: UTC
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "8080:80"
+    volumes:
+      - dapackages:/usr/share/docassemble/packagestaging
+      - dafiles:/usr/share/docassemble/files
+
+volumes:
+  pgdata:
+  dapackages:
+  dafiles:

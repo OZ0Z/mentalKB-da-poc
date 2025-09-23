@@ -2,14 +2,18 @@
 
 setup(
     name="docassemble-mentalkb",
-    version="0.0.1",
-    description="MentalkB interview driven by MentalkB CSV dataset",
-    long_description="Docassemble package that renders interviews from MentalkB DB extracts.",
+    version="1.0.0",
+    description="MentalkB Docassemble interview backed by Postgres",
+    long_description="Dynamic interview that reads questions, pages, and options from the MentalkB database.",
     long_description_content_type="text/markdown",
     author="Your Name",
     license="MIT",
     packages=find_packages(),
-    install_requires=["docassemble-base","pandas"],
+    install_requires=[
+        "docassemble-base",
+        "SQLAlchemy>=2.0",
+        "psycopg2-binary>=2.9",
+    ],
     include_package_data=True,
     zip_safe=False,
 )
