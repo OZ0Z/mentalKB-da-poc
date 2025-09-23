@@ -1,22 +1,30 @@
 ﻿# docassemble-mentalkb
 
-Docassemble package that renders MentalkB interview flows directly from the MentalkB Postgres database.
+Docassemble package that renders MentalkB interview flows directly from the database seeded in this PoC.
 
-## Features
-- Loads pages, questions, and options via SQLAlchemy.
-- Supports page-by-page wizard rendering inside docassemble.
-- Persists responses to `intake_sessions` using a docassemble completion hook.
-- Generates a Markdown summary attachment (swap for DOCX/PDF as needed).
+## What it does
 
-## Installation
-1. Ensure the MentalkB database is running (see repository root README).
-2. In Docassemble, open **Package Management → Add a package → from GitHub** and provide this repository URL, or upload a built archive containing this package directory.
-3. Launch the interview at `/interview?i=docassemble.mentalkb:data/questions/interview.yml`.
+- `loader.py` reads `pages`, `pages_layout`, `questions`, and `questions_options` via SQLAlchemy.
+- `data/questions/interview.yml` renders a page-by-page wizard, deferring control metadata to the DB.
+- `util.py` persists each interview run into `public.intake_sessions` as JSON.
+- `templates/summary.md` produces the downloadable summary (swap for DOCX when ready).
 
-## Configuration
-The package expects an environment variable `MENTALKB_DB_URL` inside the Docassemble runtime. The provided Docker Compose file/container sets this automatically.
+## Expected environment
 
-## Development tips
-- Update `loader.py` SQL statements if the underlying schema differs.
-- Extend `util.save_session_results` to write to domain-specific tables.
-- To rerun the loader locally, export `MENTALKB_DB_URL` and run `python -m docassemble.mentalkb.loader` for a quick smoke test.
+Set `MENTALKB_DB_URL` inside the Docassemble runtime. The provided Docker Compose file injects it automatically.
+
+## Developer map
+
+```
+docassemble-mentalkb/
+├─ setup.py / MANIFEST.in        # packaging metadata and bundled assets
+├─ tests/                        # loader smoke tests
+└─ docassemble/mentalkb/
+   ├─ __init__.py                # exports KB and save_session_results
+   ├─ loader.py                  # DB → Question/Option/Page objects
+   ├─ util.py                    # save_session_results hook
+   ├─ data/questions/interview.yml  # primary interview driver
+   └─ templates/summary.md       # export template
+```
+
+Adjust the SQL queries in `loader.py` if your schema names differ.
