@@ -30,7 +30,7 @@ The first boot seeds Postgres using `db-init/001_mentalkb.sql`. To reseed, run `
 Inside Docassemble:
 1. Package Management → Add a package → from GitHub → paste this repo URL.
 2. After installation, open `/interview?i=docassemble.mentalkb:data/questions/interview.yml`.
-3. Walk through the pages; on completion, an entry is written to `intake_sessions` and a summary attachment downloads.
+3. Walk through the pages; on completion, an entry is written to `intake_sessions` and a summary attachment downloads(can and will soon be DocX template)
 
 ## 5. Verify database writes
 In pgAdmin (or `docker compose exec postgres psql`):
@@ -39,6 +39,12 @@ SELECT id, created_at, user_email, data
 FROM intake_sessions
 ORDER BY id DESC
 LIMIT 5;
+
+SELECT id, created_at, user_email, jsonb_pretty(data) AS data
+FROM intake_sessions
+ORDER BY id DESC
+LIMIT 5;
+
 ```
 You should see the answers JSON recorded for the session.
 
