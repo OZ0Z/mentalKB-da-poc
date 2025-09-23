@@ -1,4 +1,4 @@
-﻿# MentalkB Docassemble PoC
+🧠 ﻿# MentalkB Docassemble PoC
 
 **Proof-of-concept:** migrating MentalkB wizard flows from Catalyst into [docassemble](https://docassemble.org/).
 
