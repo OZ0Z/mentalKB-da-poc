@@ -40,4 +40,5 @@ _For the detailed walkthrough with screenshots, see [docs/setup-guide.md](docs/s
 
 ---
 
-Built for the MentalkB migration feasibility study.
+Built for the MentalkB migration feasibility study. Work in progress.
+
