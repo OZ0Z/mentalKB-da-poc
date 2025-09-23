@@ -3,7 +3,7 @@
 
 _For the detailed walkthrough with screenshots, see [docs/setup-guide.md](docs/setup-guide.md)._ 
 
-# ⚡Quick Start
+# ⚡ **Quick Start**
 
 1. Copy `.env.example` to `.env` and change secrets if needed.
 
