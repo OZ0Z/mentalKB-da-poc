@@ -85,3 +85,10 @@ Short setup + architecture mapping for reviewers.
 - Assumes flat page order; no conditional jumps implemented yet.
 - Loader performs read-only queries; ensure DB user has appropriate permissions.
 - Seeding relies on docker volume reset; provide migration scripts for production.
+
+## Platform stance
+- **Database** owns interview content (pages, questions, options).
+- **Docassemble** renders UX and calls lightweight `code:` snippets for rules.
+- **Python helpers** (`loader.py`, future `rules.py`) provide reusable predicates so rule logic stays versioned and testable.
+
+This split lets content designers update data without redeploying code while keeping engineering control over critical branching and validation.

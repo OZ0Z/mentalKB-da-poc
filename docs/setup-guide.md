@@ -32,8 +32,10 @@ Inside Docassemble:
 2. After installation, open `/interview?i=docassemble.mentalkb:data/questions/interview.yml`.
 3. Walk through the pages; on completion, an entry is written to `intake_sessions` and a summary attachment downloads(can and will soon be DocX template)
 
+> 📸 Drop screenshots in `docs/img/` (e.g., `first-page.png`, `intake-sessions.png`) so reviewers can see both the rendered interview and the database row.
+
 ## 5. Verify database writes
-In pgAdmin (or `docker compose exec postgres psql`):
+In pgAdmin (or `docker compose exec mentalkb-postgres psql`):
 ```sql
 SELECT id, created_at, user_email, data
 FROM intake_sessions
@@ -50,5 +52,5 @@ You should see the answers JSON recorded for the session.
 
 ## Troubleshooting
 - Reseed Postgres: `docker compose down -v && docker compose up -d`
-- Shell access: `docker compose exec -it postgres psql -U $MENTALKB_USER -d $MENTALKB_DB`
+- Shell access: `docker compose exec -it mentalkb-postgres psql -U $MENTALKB_USER -d $MENTALKB_DB`
 - Docassemble logs: `docker compose logs -f docassemble`

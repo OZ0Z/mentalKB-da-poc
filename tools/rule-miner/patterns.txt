@@ -1,0 +1,45 @@
+﻿# navigation
+next
+previous
+navigate
+route
+switch\s*\(
+case\s+["\']?[A-Za-z0-9_]+["\']?
+
+# visibility / gating
+visible
+setVisible
+show
+hide
+
+# required / validation
+required
+validate
+validation
+error
+addError
+Pattern\.compile
+matches\(
+before\(
+after\(
+
+# computed / compare
+equals
+compareTo
+isAfter
+isBefore
+age
+difference
+
+# options / lookups
+options
+choices
+list
+lookup
+filter
+
+# fields
+question_group
+question_field
+pagename
+page_

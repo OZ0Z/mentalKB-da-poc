@@ -24,3 +24,11 @@ cd tools/rule-miner
 ./mine.sh ../../legacy/java > sample-output/rules.csv
 `
 Review the CSV, update docs/rules-catalog.md, and commit artifact changes.
+
+## Legacy Java sources
+- Clone or symlink the Catalyst Java repo into `legacy/java/` (ignored by git).
+  - Example symlink (PowerShell): `New-Item -ItemType SymbolicLink -Path legacy/java -Target "C:\\Users\\nerdy\\IdeaProjects\\CATALYST\\nlighen-master"`
+  - Or `git clone https://.../nlighen-master.git legacy/java`
+- Run `tools/rule-miner/mine.sh ../../legacy/java > tools/rule-miner/sample-output/rules.csv` to refresh the catalog.
+- Commit only the generated CSV/notes; the legacy repo stays untracked.
+

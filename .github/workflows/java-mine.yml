@@ -1,0 +1,28 @@
+﻿name: Rule Miner
+
+on: [push, pull_request]
+
+jobs:
+  mine:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install ripgrep
+        run: sudo apt-get update && sudo apt-get install -y ripgrep
+
+      - name: Run miner (grep)
+        working-directory: tools/rule-miner
+        run: |
+          chmod +x mine.sh
+          if [ -d ../../legacy/java ]; then
+            ./mine.sh ../../legacy/java > sample-output/rules.csv
+          else
+            echo "kind,scope,target,inputs,condition_snippet,file,line" > sample-output/rules.csv
+          fi
+
+      - name: Upload rules.csv
+        uses: actions/upload-artifact@v4
+        with:
+          name: rules-csv
+          path: tools/rule-miner/sample-output/rules.csv

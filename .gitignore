@@ -4,3 +4,6 @@ __pycache__/
 .DS_Store
 /*.zip
 /db-init/*.sql
+!db-init/000_bootstrap_intake_sessions.sql
+legacy/
+legacy/

@@ -1,0 +1,53 @@
+﻿name: Smoke
+
+on: [push, pull_request]
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_DB: mentalkb
+          POSTGRES_USER: mentalkb
+          POSTGRES_PASSWORD: mentalkb
+        ports:
+          - "5432:5432"
+        options: >-
+          --health-cmd="pg_isready -U mentalkb -d mentalkb"
+          --health-interval=5s --health-timeout=5s --health-retries=20
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Seed database
+        env:
+          PGHOST: localhost
+          PGPORT: 5432
+          PGUSER: mentalkb
+          PGPASSWORD: mentalkb
+          PGDATABASE: mentalkb
+        run: |
+          psql -c "CREATE EXTENSION IF NOT EXISTS plpgsql;"
+          if [ -f db-init/000_bootstrap_intake_sessions.sql ]; then
+            psql -f db-init/000_bootstrap_intake_sessions.sql
+          fi
+          psql -f db-init/001_mentalkb.sql
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install package
+        working-directory: packages/docassemble-mentalkb
+        run: |
+          python -m pip install -U pip
+          pip install -e . pytest
+
+      - name: Run loader smoke tests
+        env:
+          MENTALKB_DB_URL: postgresql+psycopg2://mentalkb:mentalkb@localhost:5432/mentalkb
+        working-directory: packages/docassemble-mentalkb
+        run: pytest -q
