@@ -54,7 +54,7 @@ Minimal summary; replace with a branded summary.docx when you’re ready (no cod
 **Docs**: docs/
 Short setup + architecture mapping for reviewers.
 
-## Contracts & boundaries (keep it clean)
+## Contracts & boundaries 
 
 **Input**: A Postgres DB that contains pages, pages_layout, questions, and questions_options.
 
