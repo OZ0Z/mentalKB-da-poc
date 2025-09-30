@@ -6,4 +6,3 @@ __pycache__/
 /db-init/*.sql
 !db-init/000_bootstrap_intake_sessions.sql
 legacy/
-legacy/

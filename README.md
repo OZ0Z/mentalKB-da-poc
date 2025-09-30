@@ -105,7 +105,7 @@ mentalkb-da-poc/
 - Migration strategy: [docs/migration-strategy.md](docs/migration-strategy.md)
 - Rules catalog & traceability: [docs/rules-catalog.md](docs/rules-catalog.md)
 - Limitations & risks: [docs/limitations.md](docs/limitations.md)
-- Operational runbook: [docs/runbook.md](docs/runbook.md)
+- Operational runbook: [docs/runbook.md](docs/runbook.md)\n- Rule miner digest: [docs/rules-digest.md](docs/rules-digest.md)
 
 ## Contracts & Boundaries
 
